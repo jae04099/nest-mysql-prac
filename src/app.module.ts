@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './UserComponent/user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entity/users.entity';
 
 @Module({
   imports: [
@@ -15,14 +14,14 @@ import { UserModule } from './UserComponent/user.module';
       username: 'root',
       password: 'Lc0711zz23#',
       database: 'test',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [User],
       synchronize: true,
     }),
-    UserModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor(private readonly connection: Connection) {}
-}
+export class AppModule {}
+
+// jwt 무조건 해야함 nest꺼 보면 됨. postman으로 controller hello world 띄우고 회원가입할때 password encoding해서 디비에 저장. 로그인했을 때 토큰 받아오게 하면 끝
